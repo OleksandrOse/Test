@@ -1,0 +1,19 @@
+.breadcrumb {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0 16px;
+
+  &-link {
+    padding: 14px 8px;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #6b7280;
+  }
+}
+
+.custom-divider {
+  --bs-breadcrumb-divider: url("data:image/svg+xml, <svg width='29' height='44' viewBox='0 0 29 44' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M7.5 0H0V44H7.5L29 22L7.5 0Z' fill='#6b7280'/></svg>");
+}

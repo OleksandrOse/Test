@@ -1,0 +1,6 @@
+export enum FilterTodos {
+  CONTACT = 'contact-info',
+  QUANTITY = 'quantity',
+  PRICE = 'price',
+  DONE = 'done',
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+
 import { App } from './App';
 import {
   HashRouter as Router,
@@ -8,6 +8,10 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
+import { ContactInfo } from './pages/ContactInfo';
+import { Quantity } from './pages/Quantity';
+import { Price } from './pages/Price';
+import { Done } from './pages/Done';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,11 +22,11 @@ root.render(
     <Router>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route index element={<App />} />
+        <Route index element={<ContactInfo />} />
         <Route path="contact-info" element={<Navigate to="/" replace />} />
-        <Route path="quantity" element={<App />} />
-        <Route path="price" element={<App />} />
-        <Route path="done" element={<App/>} />
+        <Route path="quantity" element={<Quantity />} />
+        <Route path="price" element={<Price />} />
+        <Route path="done" element={<Done/>} />
       </Route>
     </Routes>
   </Router>

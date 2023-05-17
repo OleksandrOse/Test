@@ -1,14 +1,13 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { UserInfo } from '../../types/UserInfo';
+import React, { useState } from 'react';
+import { useGlobalState } from '../../utils/GlobalStateProvider';
+
 import { validateFields } from '../../utils/validateFields';
 import { useNavigate } from "react-router-dom";
+import { Button } from '../Button/Button';
+import { ButtonTypes } from '../../types/ButtonTypes';
 
-type Props = {
-  values: UserInfo;
-  setValues: Dispatch<SetStateAction<UserInfo>>
-};
-
-export const Form: React.FC<Props> = ({ values, setValues }) => {
+export const Form: React.FC = () => {
+  const { data, setData } = useGlobalState();
   const navigate = useNavigate();
   const [isValid, setIsValid] = useState({
     name: false,
@@ -27,15 +26,14 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
     phone: false,
   });
 
-  const { name, email, phone } = values;
-  console.log(values);
+  const { name, email, phone } = data;
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name: field, value } = event.target;
 
-    setValues(current => ({ ...current, [field]: value }));
+    setData(current => ({ ...current, [field]: value }));
     setErrors(current => ({ ...current, [field]: false }));
     setToched(current => ({ ...current, [field]: false }));
   };
@@ -49,7 +47,7 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
       phone: !phone,
     });
 
-    if (!name.trim() || !email.trim() || !phone.trim()) {
+    if (!name?.trim() || !email?.trim() || !phone?.trim()) {
       return;
     }
 
@@ -57,7 +55,7 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
   };
 
   const handleBlur = (value: string, field: string) => {
-    if (!value.trim().length) {
+    if (!value?.trim().length) {
       setToched(current => ({
         ...current,
         [field]: true,
@@ -79,7 +77,7 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div
-        className="form-group row align-items-center justify-content-start mb-5"
+        className="form-group row align-items-center"
       >
         <label
           htmlFor="name"
@@ -93,9 +91,9 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
             name="name"
             className="form-control"
             id="name"
-            value={name}
+            value={data.name}
             onChange={handleChange}
-            onBlur={() => handleBlur(name, 'name')}
+            onBlur={() => handleBlur(name!, 'name')}
           />
         </div>
         <p className="help is-danger" data-cy="ErrorMessage">
@@ -104,15 +102,15 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
         </p>
       </div>
 
-      <div className="form-group align-items-center row mb-5">
+      <div className="form-group align-items-center row">
         <label
           htmlFor="email"
           className="col-3 offset-1 control-label justify-content-end"
-          >
-            Email
-            <span>
-              required
-            </span>
+        >
+          Email
+          <span>
+            required
+          </span>
         </label>
         <div className="col-6 align-items-center">
           <input
@@ -122,7 +120,7 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
             id="email"
             value={email}
             onChange={handleChange}
-            onBlur={() => handleBlur(email, 'email')}
+            onBlur={() => handleBlur(email!, 'email')}
           />
         </div>
         <p className="help is-danger" data-cy="ErrorMessage">
@@ -131,7 +129,7 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
         </p>
       </div>
 
-      <div className="form-group row align-items-center mb-5">
+      <div className="form-group row align-items-center">
         <label htmlFor="phone" className="col-3 control-label">Phone</label>
         <div className="col-6">
           <input
@@ -141,18 +139,16 @@ export const Form: React.FC<Props> = ({ values, setValues }) => {
             id="phone"
             value={phone}
             onChange={handleChange}
-            onBlur={() => handleBlur(phone, 'phone')}
+            onBlur={() => handleBlur(phone!, 'phone')}
           />
         </div>
-        <p className="help is-danger" data-cy="ErrorMessage">
+        <p className="is-danger" data-cy="ErrorMessage">
           {errorPhone && 'Phone is required'}
           {isValid.phone && !errorPhone && 'Phone is not valid'}
         </p>
       </div>
 
-      <div className="row col-2 offset-1">
-        <button type="submit" className="btn btn-primary">Continue</button>
-      </div>
+      <Button type={ButtonTypes.Submit} title="Continue" />
     </form>
   )
 }

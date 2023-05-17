@@ -1,27 +1,21 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
-import { UserInfo } from '../../types/UserInfo';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate} from "react-router-dom";
+import { useGlobalState } from '../../utils/GlobalStateProvider';
+import { BackButton } from '../BackButton/BackButton';
 
-type Props = {
-  values: UserInfo;
-  setValues: Dispatch<SetStateAction<UserInfo>>
-};
-
-export const QuntityForm: React.FC<Props> = ({ values, setValues }) => {
+export const QuntityForm: React.FC = () => {
+  const { data, setData } = useGlobalState();
   const navigate = useNavigate();
   const [touched, setToched] = useState(false);
-
   const [errors, setErrors] = useState(false);
-
-  const { quantity } = values;
-  console.log(values);
+  const { quantity } = data;
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name: field, value } = event.target;
 
-    setValues(current => ({ ...current, [field]: value }));
+    setData(current => ({ ...current, [field]: value }));
     setErrors(current => current = false);
     setToched(current => current = false);
   };
@@ -29,12 +23,16 @@ export const QuntityForm: React.FC<Props> = ({ values, setValues }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!quantity.trim()) {
+    if (!quantity?.trim()) {
       return;
     }
 
     navigate('/price');
   };
+
+  const handleClickBack = () => {
+    navigate('/');
+  }
 
   const handleBlur = (value: string, field: string) => {
     if (!value.trim().length) {
@@ -47,7 +45,7 @@ export const QuntityForm: React.FC<Props> = ({ values, setValues }) => {
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group align-items-center row mb-5">
-        <label htmlFor="email" className="col-3 offset-1 control-label justify-content-end">Quantity<span>required</span></label>
+        <label htmlFor="quantity" className="col-3 offset-1 control-label justify-content-end">Quantity<span>required</span></label>
         <div className="col-6 align-items-center">
           <input
             type="text"
@@ -56,7 +54,7 @@ export const QuntityForm: React.FC<Props> = ({ values, setValues }) => {
             id="quantity"
             value={quantity}
             onChange={handleChange}
-            onBlur={() => handleBlur(quantity, 'quantity')}
+            onBlur={() => handleBlur(quantity!, 'quantity')}
           />
         </div>
         <div className="help is-danger" data-cy="ErrorMessage">
@@ -66,12 +64,7 @@ export const QuntityForm: React.FC<Props> = ({ values, setValues }) => {
 
       <div className="button-group row offset-1">
         <button type="submit" className=" row col-2 btn btn-primary">Continue</button>
-        <button
-          type="button"
-          className="row col-2 offset-1 btn btn-light"
-        >
-          Back
-        </button>
+        <BackButton />
       </div>
     </form>
   )

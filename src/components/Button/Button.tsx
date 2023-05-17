@@ -18,17 +18,19 @@ export const Button: React.FC<Props> = ({
   isDisabled,
 }) => {
   return (
-    <button
-      type={type}
-      className={classNames(
-        "btn",
-        { 'button--disabled': isDisabled },
-      )}
-      data-cy="backButton"
-      onClick={handleClick}
-      disabled={isDisabled}
-    >
-      {title}
-    </button>
+    <div className="row">
+      <button
+        type={type}
+        className={classNames(
+          "btn btn-primary col-5 col-lg-2",
+          { 'btn-disabled': isDisabled },
+        )}
+        data-cy="backButton"
+        onClick={handleClick}
+        disabled={isDisabled}
+      >
+        {title}
+      </button>
+    </div>
   );
 };

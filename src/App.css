@@ -1,10 +1,48 @@
+@font-face {
+  font-family: "Inter";
+  src: url("../src/fonts/Inter-VariableFont_slnt\,wght.ttf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
 .App {
-  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.container {
   margin: 0 auto;
+  padding: 0;
 }
 
 .card {
+  margin: 100px 0;
   background-color: #e5e5e5;
+  height: 470px;
+}
+
+div.card-body {
+  padding: 44px 80px;
 }
